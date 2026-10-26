@@ -21,7 +21,6 @@ This project lets you open `.har` files, inspect requests and responses, filter 
 - `styles.css` — UI styling and layout
 - `main.js` — Electron desktop app entry point
 - `js/` — parsing, filtering, analysis, formatting, and security logic
-- `dist/har-analyzer 1.0.0.exe` — packaged Windows desktop app
 
 ## Run from source
 
@@ -41,11 +40,7 @@ This will launch the Electron desktop app.
 
 ## Run the packaged Windows app
 
-Double-click:
-
-```text
-dist\har-analyzer 1.0.0.exe
-```
+Download the latest release.
 
 ## Notes
 
