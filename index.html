@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HAR Analyzer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <header class="toolbar">
+        <div class="toolbar-left">
+          <button id="openHarBtn" class="primary">Open HAR</button>
+          <button id="clearHarBtn" class="secondary">Clear</button>
+          <div id="filenameBadge" class="filename-badge">No HAR loaded</div>
+        </div>
+
+        <div class="toolbar-center">
+          <span class="summary-pill">Requests <strong id="totalRequestsValue">0</strong></span>
+          <span class="summary-pill">Transferred <strong id="totalTransferredValue">0 B</strong></span>
+          <span class="summary-pill">Duration <strong id="totalDurationValue">0 ms</strong></span>
+        </div>
+
+        <div class="toolbar-right">
+          <div class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="Search URL, headers, response..." aria-label="Search requests" />
+          </div>
+          <label class="toggle">
+            <input id="redactToggle" type="checkbox" />
+            <span>Redact sensitive</span>
+          </label>
+        </div>
+      </header>
+
+      <div id="filterBar" class="filter-bar">
+        <select id="typeFilter">
+          <option value="all">All types</option>
+          <option value="fetch">Fetch/XHR</option>
+          <option value="document">Document</option>
+          <option value="script">JavaScript</option>
+          <option value="stylesheet">CSS</option>
+          <option value="image">Images</option>
+          <option value="font">Fonts</option>
+          <option value="media">Media</option>
+          <option value="other">Other</option>
+        </select>
+
+        <select id="statusFilter">
+          <option value="all">All statuses</option>
+          <option value="2xx">2xx</option>
+          <option value="3xx">3xx</option>
+          <option value="4xx">4xx</option>
+          <option value="5xx">5xx</option>
+          <option value="failed">Failed / unknown</option>
+        </select>
+
+        <select id="methodFilter">
+          <option value="all">All methods</option>
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="DELETE">DELETE</option>
+          <option value="PATCH">PATCH</option>
+          <option value="OPTIONS">OPTIONS</option>
+        </select>
+
+        <select id="domainFilter">
+          <option value="all">All domains</option>
+        </select>
+
+        <select id="mimeFilter">
+          <option value="all">All MIME</option>
+        </select>
+
+        <input id="minDurationFilter" type="number" min="0" step="1" placeholder="Min duration (ms)" />
+        <input id="minSizeFilter" type="number" min="0" step="1" placeholder="Min size (bytes)" />
+
+        <select id="cacheFilter">
+          <option value="all">Cached: all</option>
+          <option value="cached">Cached only</option>
+          <option value="not-cached">Not cached only</option>
+        </select>
+
+        <label class="toggle compact">
+          <input id="errorsOnlyToggle" type="checkbox" />
+          <span>Errors only</span>
+        </label>
+      </div>
+
+      <section id="overviewPanel" class="overview-panel">
+        <div class="overview-grid" id="overviewGrid"></div>
+      </section>
+
+      <main class="main-layout">
+        <section class="network-panel">
+          <div class="network-header">
+            <div id="resultsSummary" class="results-summary">Showing 0 of 0 requests</div>
+          </div>
+          <div class="table-wrap">
+            <table id="networkTable" class="network-table">
+              <thead>
+                <tr id="tableHeaders"></tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside id="inspectorPanel" class="inspector-panel">
+          <div class="inspector-resize-handle" id="inspectorResizeHandle" aria-label="Resize inspector"></div>
+          <div id="inspectorContent" class="inspector-content empty-state">
+            <div class="empty-inspector">
+              <h3>No request selected</h3>
+              <p>Select a request in the network table to inspect its details.</p>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <div id="comparePanel" class="compare-panel collapsed">
+        <div class="compare-header">
+          <h3>Compare mode</h3>
+          <div class="compare-actions">
+            <button id="loadBaselineBtn" class="secondary">Baseline HAR</button>
+            <button id="loadComparisonBtn" class="secondary">Comparison HAR</button>
+            <button id="toggleCompareBtn" class="secondary">Hide</button>
+          </div>
+        </div>
+        <div class="compare-description">
+          Baseline HAR = the reference capture. Comparison HAR = the newer capture you want to compare against it. This is for spotting changes in request count, transfer size, duration, and failures.
+        </div>
+        <div id="compareContent" class="compare-content"></div>
+      </div>
+    </div>
+
+    <input id="fileInput" type="file" accept=".har,.txt,application/json" hidden />
+    <input id="baselineInput" type="file" accept=".har,.txt,application/json" hidden />
+    <input id="comparisonInput" type="file" accept=".har,.txt,application/json" hidden />
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
